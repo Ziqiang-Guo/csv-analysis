@@ -22,6 +22,7 @@
             <ul>
                 <li>Total Rows: {{ result.summary.rows }}</li>
                 <li>Total Columns: {{ result.summary.columns }}</li>
+                <li>Columns Names: {{ result.summary.column_names }}</li>
             </ul>
             
             <h4>Column Statistics</h4>
@@ -44,6 +45,9 @@
                     {% endif %}
                     {% if stats.median is not none %}
                     <li>Median: {{ "%.2f"|format(stats.median) }}</li>
+                    {% endif %}        
+                    {% if stats.min_high_difference is not none %}
+                    <li>mean-high difference: {{ "%.2f"|format(stats.min_high_difference) }}</li>
                     {% endif %}
                 </ul>
             </div>

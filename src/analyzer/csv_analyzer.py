@@ -33,12 +33,12 @@ class CsvAnalyzer:
             for column in numeric_data.columns:
                 stats = data[column].describe()
                 analysis['statistics'][column] = {
-                    'count': int(stats['count']),
                     'mean': float(stats['mean']),
                     'std': float(stats['std']),
                     'min': float(stats['min']),
                     'max': float(stats['max']),
-                    'median': float(data[column].median())  # Adding median calculation
+                    'median': float(data[column].median()),  # Adding median calculation
+                    'min_high_difference': float(stats['max']) - float(stats['min'])
                 }
             
             return analysis
