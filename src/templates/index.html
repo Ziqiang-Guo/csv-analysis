@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>CSV File Analyzer</h1>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Select CSV File</label>
+                <input type="file" class="form-control" id="file" name="file" accept=".csv">
+            </div>
+            <button type="submit" class="btn btn-primary">Analyze</button>
+        </form>
+    </div>
+</div>
+
+{% if result %}
+<div class="result-box">
+    <h3>Analysis Results</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Summary</h4>
+            <ul>
+                <li>Total Rows: {{ result.summary.rows }}</li>
+                <li>Total Columns: {{ result.summary.columns }}</li>
+            </ul>
+            
+            <h4>Column Statistics</h4>
+            {% for column, stats in result.statistics.items() %}
+            <div class="mb-3">
+                <h5>{{ column }}</h5>
+                <ul>
+                    <li>Count: {{ stats.count }}</li>
+                    {% if stats.mean is not none %}
+                    <li>Mean: {{ "%.2f"|format(stats.mean) }}</li>
+                    {% endif %}
+                    {% if stats.std is not none %}
+                    <li>Standard Deviation: {{ "%.2f"|format(stats.std) }}</li>
+                    {% endif %}
+                    {% if stats.min is not none %}
+                    <li>Min: {{ "%.2f"|format(stats.min) }}</li>
+                    {% endif %}
+                    {% if stats.max is not none %}
+                    <li>Max: {{ "%.2f"|format(stats.max) }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
