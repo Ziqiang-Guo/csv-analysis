@@ -20,28 +20,27 @@ class CsvAnalyzer:
             dict: Analysis results
         """
         try:
-            # Basic statistics
-            stats = data.describe(include='all')
-            
-            # Convert to JSON serializable format
             analysis = {
                 'summary': {
                     'rows': len(data),
                     'columns': len(data.columns),
                     'column_names': list(data.columns)
                 },
-                'statistics': {
-                    col: {
-                        'count': int(stats[col]['count']) if not pd.isna(stats[col]['count']) else 0,
-                        'mean': float(stats[col]['mean']) if 'mean' in stats[col] and not pd.isna(stats[col]['mean']) else None,
-                        'std': float(stats[col]['std']) if 'std' in stats[col] and not pd.isna(stats[col]['std']) else None,
-                        'min': float(stats[col]['min']) if 'min' in stats[col] and not pd.isna(stats[col]['min']) else None,
-                        'max': float(stats[col]['max']) if 'max' in stats[col] and not pd.isna(stats[col]['max']) else None,
-                        'median': float(data['Salary'].median()) if 'Salary' in data.columns else None,
-                    }
-                    for col in data.select_dtypes(include=np.number).columns
-                }
+                'statistics': {}
             }
+            
+            numeric_data = data.select_dtypes(include=[np.number])
+            for column in numeric_data.columns:
+                stats = data[column].describe()
+                analysis['statistics'][column] = {
+                    'count': int(stats['count']),
+                    'mean': float(stats['mean']),
+                    'std': float(stats['std']),
+                    'min': float(stats['min']),
+                    'max': float(stats['max']),
+                    'median': float(data[column].median())  # Adding median calculation
+                }
+            
             return analysis
         except Exception as e:
             return {'error': str(e)}

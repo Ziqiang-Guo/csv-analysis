@@ -42,6 +42,9 @@
                     {% if stats.max is not none %}
                     <li>Max: {{ "%.2f"|format(stats.max) }}</li>
                     {% endif %}
+                    {% if stats.median is not none %}
+                    <li>Median: {{ "%.2f"|format(stats.median) }}</li>
+                    {% endif %}
                 </ul>
             </div>
             {% endfor %}
