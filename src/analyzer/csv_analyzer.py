@@ -36,7 +36,8 @@ class CsvAnalyzer:
                         'mean': float(stats[col]['mean']) if 'mean' in stats[col] and not pd.isna(stats[col]['mean']) else None,
                         'std': float(stats[col]['std']) if 'std' in stats[col] and not pd.isna(stats[col]['std']) else None,
                         'min': float(stats[col]['min']) if 'min' in stats[col] and not pd.isna(stats[col]['min']) else None,
-                        'max': float(stats[col]['max']) if 'max' in stats[col] and not pd.isna(stats[col]['max']) else None
+                        'max': float(stats[col]['max']) if 'max' in stats[col] and not pd.isna(stats[col]['max']) else None,
+                        'median': float(data['Salary'].median()) if 'Salary' in data.columns else None,
                     }
                     for col in data.select_dtypes(include=np.number).columns
                 }
